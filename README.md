@@ -68,3 +68,49 @@ tensorboard --load_fast=false --logdir=/app/experiments --host=0.0.0.0 --port=60
 ```
 
 На хосте откройте: http://localhost:6006
+
+## Подключение как Git submodule
+
+Этот репозиторий можно подключить как Git submodule в другие проекты для централизованного управления Docker-образом.
+
+### Инструкция по подключению
+
+1. Добавить submodule в ваш проект:
+```bash
+git submodule add git@github.com:medphisiker/CV-SHAD-HW-Docker-image.git projects_docker
+```
+
+2. Инициализировать и обновить submodule:
+```bash
+git submodule update --init --recursive
+```
+
+3. Для обновления submodule до последней версии:
+```bash
+cd projects_docker
+git pull origin master
+cd ..
+git add projects_docker
+git commit -m "Update projects_docker submodule"
+```
+
+### Преимущества использования submodule
+
+- Централизованное управление Docker-образом
+- Возможность обновления образа во всех проектах одновременно
+- Сохранение истории изменений Docker-конфигурации
+- Удобное переиспользование в разных проектах
+
+### Отключение submodule
+
+Если вам нужно удалить submodule из проекта:
+
+```bash
+# Удалить запись о submodule из .gitmodules
+git submodule deinit -f projects_docker
+git rm -f projects_docker
+rm -rf .git/modules/projects_docker
+
+# Удалить кэш submodule (опционально)
+git rm --cached projects_docker
+```
